@@ -60,6 +60,14 @@ fun CreateTask(
                 modifier = Modifier.fillMaxWidth()
             )
 
+            OutlinedTextField(
+                value = description,
+                onValueChange = { description = it },
+                label = { Text("Descripción") },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+
             Spacer(modifier = Modifier.height(24.dp))
 
             Row(
