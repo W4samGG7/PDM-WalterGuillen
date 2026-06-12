@@ -1,0 +1,36 @@
+package com.pdm0126.labo5app.data.database
+
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import com.pdm0126.labo5app.data.database.dao.TaskDao
+import com.pdm0126.labo5app.data.database.entities.TaskEntity
+
+@Database(
+    entities = [TaskEntity::class],
+    version = 1,
+    exportSchema = false
+)
+abstract class AppDatabase : RoomDatabase(){
+
+    abstract fun taskDao(): TaskDao
+
+    companion object {
+        @Volatile
+        private var INSTANCE: AppDatabase? = null
+
+        fun getDatabase(context: Context): AppDatabase {
+            return INSTANCE ?: synchronized(this){
+                Room.databaseBuilder(
+                    context = context.applicationContext,
+                    klass = AppDatabase::class.java,
+                    name = "labo5_database"
+                )
+                    .fallbackToDestructiveMigration(false)
+                    .build()
+                    .also { INSTANCE = it }
+            }
+        }
+    }
+}
